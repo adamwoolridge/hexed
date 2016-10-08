@@ -7,9 +7,13 @@ public class HexMesh : MonoBehaviour {
 	Mesh hexMesh;
  	List<Vector3> vertices;
  	List<int> triangles;
+
+	MeshCollider meshCollider;
+
  	void Awake () 
  	{
  		GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
+		meshCollider = gameObject.AddComponent<MeshCollider>();
  		hexMesh.name = "Hex Mesh";
  		vertices = new List<Vector3>();
  		triangles = new List<int>();
@@ -26,6 +30,8 @@ public class HexMesh : MonoBehaviour {
 		hexMesh.vertices = vertices.ToArray();
  		hexMesh.triangles = triangles.ToArray();
  		hexMesh.RecalculateNormals();
+
+		meshCollider.sharedMesh = hexMesh;
 	}
 
 	void AddTriangle (Vector3 v1, Vector3 v2, Vector3 v3) 
