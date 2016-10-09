@@ -5,8 +5,9 @@ using UnityEngine.UI;
 public class HexGrid : MonoBehaviour 
 {
 	public HexCell cellPrefab; 
+
  	public int width = 6;
- 	public int height;
+ 	public int height = 6;
 
  	HexCell [] cells;
  	HexMesh hexMesh;
@@ -14,9 +15,23 @@ public class HexGrid : MonoBehaviour
  	public Text cellTextPrefab;
  	Canvas gridCanvas;
 
+ 	private int curWidth = 6;
+ 	private int curHeight = 6;
+ 
 	void Awake () 
 	{
- 		cells = new HexCell[height * width];
+		curWidth = -1;
+		curHeight = -1;
+
+		BuildGrid(width, height);
+ 	}
+
+ 	void BuildGrid(int w, int h)
+ 	{	
+ 		curHeight = h;
+ 		curWidth = w;
+
+		cells = new HexCell[height * width];
  		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 
@@ -30,12 +45,10 @@ public class HexGrid : MonoBehaviour
  				i++;
  			}
  		}
+
+		hexMesh.Triangulate(cells);
  	}
 
- 	void Start()
- 	{
- 		hexMesh.Triangulate(cells);
- 	}
 
 	void CreateCell (int x, int z, int i) 
 	{
@@ -49,14 +62,20 @@ public class HexGrid : MonoBehaviour
  		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
-		Text label = Instantiate<Text>(cellTextPrefab);
- 		label.rectTransform.SetParent(gridCanvas.transform, false);
- 		label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-		label.text = cell.coordinates.ToStringOnSeparateLines();
+//		Text label = Instantiate<Text>(cellTextPrefab);
+// 		label.rectTransform.SetParent(gridCanvas.transform, false);
+// 		label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
+//		label.text = cell.coordinates.ToStringOnSeparateLines();
  	}
 
 	void Update () 
 	{
+		if (height != curHeight || width != curWidth)
+		{
+			Debug.Log("build");
+			BuildGrid(width, height);
+		}
+
  		if (Input.GetMouseButtonDown(0)) 
  		{
  			HandleInput();
