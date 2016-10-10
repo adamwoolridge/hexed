@@ -10,7 +10,6 @@ public class HexGrid : MonoBehaviour
  	public int height = 6;
 
  	HexCell [] cells;
- 	HexMesh hexMesh;
 
  	public Text cellTextPrefab;
  	Canvas gridCanvas;
@@ -33,8 +32,7 @@ public class HexGrid : MonoBehaviour
 
 		cells = new HexCell[height * width];
  		gridCanvas = GetComponentInChildren<Canvas>();
-		hexMesh = GetComponentInChildren<HexMesh>();
-
+	
  		int i = 0;
 
  		for (int z = 0; z < height; z++) 
@@ -46,7 +44,8 @@ public class HexGrid : MonoBehaviour
  			}
  		}
 
-		hexMesh.Triangulate(cells);
+		foreach (HexCell cell in cells)
+			cell.Triangulate();
  	}
 
 
