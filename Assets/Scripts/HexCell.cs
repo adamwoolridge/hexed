@@ -38,7 +38,7 @@ public class HexCell : MonoBehaviour {
  		vertices.Clear();
  		triangles.Clear();
 
-		Vector3 center = transform.localPosition;
+		Vector3 center = transform.parent.localPosition;
 		for (int i = 0; i < 6; i++) 
     		AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[i + 1] );
 	
