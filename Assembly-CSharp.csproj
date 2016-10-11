@@ -48,7 +48,6 @@
      <Compile Include="Assets\Scripts\HexCell.cs" />
      <Compile Include="Assets\Scripts\HexCoordinates.cs" />
      <Compile Include="Assets\Scripts\HexGrid.cs" />
-     <Compile Include="Assets\Scripts\HexMesh.cs" />
      <Compile Include="Assets\Scripts\HexMetrics.cs" />
      <Compile Include="Assets\Scripts\Test.cs" />
  <Reference Include="UnityEngine.UI">

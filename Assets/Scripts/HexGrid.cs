@@ -61,10 +61,10 @@ public class HexGrid : MonoBehaviour
  		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
-//		Text label = Instantiate<Text>(cellTextPrefab);
-// 		label.rectTransform.SetParent(gridCanvas.transform, false);
-// 		label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-//		label.text = cell.coordinates.ToStringOnSeparateLines();
+		Text label = Instantiate<Text>(cellTextPrefab);
+ 		label.rectTransform.SetParent(gridCanvas.transform, false);
+ 		label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
+		label.text = cell.coordinates.ToStringOnSeparateLines();
  	}
 
 	void Update () 
@@ -84,11 +84,17 @@ public class HexGrid : MonoBehaviour
 	void HandleInput () 
 	{
  		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
- 		RaycastHit hit;
- 		if (Physics.Raycast(inputRay, out hit)) 
- 		{
- 			TouchCell(hit.point);
- 		}
+ 		RaycastHit hitInfo;
+
+		if (Physics.Raycast(inputRay, out hitInfo))
+		{
+			GameObject hitGO = hitInfo.transform.gameObject;
+			HexCell hitCell = hitGO.GetComponent<HexCell>();
+			if (hitCell != null)
+			{
+				hitCell.Clicked();
+			}
+		}
  	}
 
    	void TouchCell (Vector3 position) 

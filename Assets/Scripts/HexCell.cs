@@ -59,4 +59,9 @@ public class HexCell : MonoBehaviour {
  		triangles.Add(vertexIndex + 1);
 		triangles.Add(vertexIndex + 2);
  	}
+
+ 	public void Clicked()
+ 	{ 		
+		Debug.Log(coordinates.ToString());	
+ 	}
 }
