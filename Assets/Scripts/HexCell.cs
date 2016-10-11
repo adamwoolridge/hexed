@@ -45,10 +45,20 @@ public class HexCell : MonoBehaviour {
  		triangles.Clear();
  		colors.Clear();
  			
-		Vector3 center = transform.parent.localPosition + new Vector3(0f, Height, 0f);
+		Vector3 bottom = transform.parent.localPosition;
+		Vector3 top = bottom + new Vector3(0f, Height, 0f);
 
+		// Top
 		for (int i = 0; i < 6; i++) 
-    		AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[i + 1] );
+			AddTriangle(top, top + HexMetrics.corners[i], top + HexMetrics.corners[i + 1] );
+
+		// Sides
+		for (int i=0; i<6; i++)
+			AddSide(i, bottom, top);
+
+		// Bottom
+		for (int i = 0; i < 6; i++) 
+			AddTriangle(bottom, bottom + HexMetrics.corners[i], bottom + HexMetrics.corners[i + 1] );
 	
 		hexMesh.vertices = vertices.ToArray();
 		hexMesh.colors = colors.ToArray();
@@ -73,11 +83,20 @@ public class HexCell : MonoBehaviour {
 		colors.Add(Height > 0.0f ? SandColour : SeaColour);
  	}
 
+ 	void AddSide(int i, Vector3 bottom, Vector3 top)
+ 	{
+		AddTriangle(top+HexMetrics.corners[i], bottom + HexMetrics.corners[i], bottom + HexMetrics.corners[i+1]);
+		AddTriangle(bottom+HexMetrics.corners[i+1], top+HexMetrics.corners[i+1], top+HexMetrics.corners[i]);
+
+ 	}
+
  	public void Clicked(bool left=true)
  	{ 		
  		Height += left? 3.0f : -3f;
 
+ 		if (Height < 0.0f)
+ 			Height = 0.0f;
+
  		Triangulate();
-		Debug.Log(coordinates.ToString());	
  	}
 }
