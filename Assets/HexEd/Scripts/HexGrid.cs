@@ -64,6 +64,30 @@ public class HexGrid : MonoBehaviour
  		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
+		if (x > 0) 
+		{
+			cell.SetNeighbor(HexDirection.W, cells[i - 1]);
+		}
+
+		if (z > 0)
+		{
+			if ((z & 1) == 0) 
+			{
+				cell.SetNeighbor(HexDirection.SE, cells[i - width]);
+				if (x > 0) 
+				{
+					cell.SetNeighbor(HexDirection.SW, cells[i - width - 1]);
+				}
+			}
+			else 
+			{
+				cell.SetNeighbor(HexDirection.SW, cells[i - width]);
+				if (x < width - 1) 
+				{
+					cell.SetNeighbor(HexDirection.SE, cells[i - width + 1]);
+				}
+			}
+		}
 //		Text label = Instantiate<Text>(cellTextPrefab);
 // 		label.rectTransform.SetParent(gridCanvas.transform, false);
 // 		label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
@@ -74,7 +98,6 @@ public class HexGrid : MonoBehaviour
 	{
 		if (height != curHeight || width != curWidth)
 		{
-			Debug.Log("build");
 			BuildGrid(width, height);
 		}
 
@@ -143,11 +166,4 @@ public class HexGrid : MonoBehaviour
 
 		return 0f;
  	}
-
-   	void TouchCell (Vector3 position) 
-   	{
- 		position = transform.InverseTransformPoint(position);
-		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-		Debug.Log(coordinates.ToString());
-	}
 }

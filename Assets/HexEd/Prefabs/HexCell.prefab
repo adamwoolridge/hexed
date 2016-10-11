@@ -95,3 +95,10 @@ MonoBehaviour:
   SeaColour: {r: 0, g: 0, b: 1, a: 1}
   SandColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   Height: 0
+  neighbors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
