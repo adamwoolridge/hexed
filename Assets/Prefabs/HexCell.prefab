@@ -55,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a122acd514eec4ff98238006e328504b, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -92,3 +92,6 @@ MonoBehaviour:
   coordinates:
     x: 0
     z: 0
+  SeaColour: {r: 0, g: 0, b: 1, a: 1}
+  SandColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  Height: 0

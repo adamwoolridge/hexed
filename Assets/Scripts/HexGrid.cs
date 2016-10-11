@@ -16,7 +16,8 @@ public class HexGrid : MonoBehaviour
 
  	private int curWidth = 6;
  	private int curHeight = 6;
- 
+
+
 	void Awake () 
 	{
 		curWidth = -1;

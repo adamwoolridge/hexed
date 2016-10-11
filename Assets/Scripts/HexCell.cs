@@ -6,10 +6,13 @@ using System.Collections.Generic;
 public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
+	public Color SeaColour = Color.blue;
+	public Color SandColour = Color.yellow;
 
 	Mesh hexMesh;
 	List<Vector3> vertices;
  	List<int> triangles;
+	List<Color> colors;
 	MeshCollider meshCollider;
 
 	public float Height = 0f;
@@ -34,18 +37,21 @@ public class HexCell : MonoBehaviour {
  			hexMesh.name = "Hex Mesh";
  			vertices = new List<Vector3>();
  			triangles = new List<int>();
+			colors = new List<Color>();
 		}
 
 		hexMesh.Clear();
  		vertices.Clear();
  		triangles.Clear();
-
+ 		colors.Clear();
+ 			
 		Vector3 center = transform.parent.localPosition + new Vector3(0f, Height, 0f);
 
 		for (int i = 0; i < 6; i++) 
     		AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[i + 1] );
 	
 		hexMesh.vertices = vertices.ToArray();
+		hexMesh.colors = colors.ToArray();
  		hexMesh.triangles = triangles.ToArray();
  		hexMesh.RecalculateNormals();
 
@@ -61,11 +67,15 @@ public class HexCell : MonoBehaviour {
  		triangles.Add(vertexIndex);
  		triangles.Add(vertexIndex + 1);
 		triangles.Add(vertexIndex + 2);
+
+ 		colors.Add(Height > 0.0f ? SandColour : SeaColour);
+		colors.Add(Height > 0.0f ? SandColour : SeaColour);
+		colors.Add(Height > 0.0f ? SandColour : SeaColour);
  	}
 
  	public void Clicked(bool left=true)
  	{ 		
- 		Height += left? 1.0f : -1f;
+ 		Height += left? 3.0f : -3f;
 
  		Triangulate();
 		Debug.Log(coordinates.ToString());	
