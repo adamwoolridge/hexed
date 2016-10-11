@@ -12,6 +12,8 @@ public class HexCell : MonoBehaviour {
  	List<int> triangles;
 	MeshCollider meshCollider;
 
+	public float Height = 0f;
+
 
 	// Use this for initialization
 	void Start () {
@@ -38,7 +40,8 @@ public class HexCell : MonoBehaviour {
  		vertices.Clear();
  		triangles.Clear();
 
-		Vector3 center = transform.parent.localPosition;
+		Vector3 center = transform.parent.localPosition + new Vector3(0f, Height, 0f);
+
 		for (int i = 0; i < 6; i++) 
     		AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[i + 1] );
 	
@@ -60,8 +63,11 @@ public class HexCell : MonoBehaviour {
 		triangles.Add(vertexIndex + 2);
  	}
 
- 	public void Clicked()
+ 	public void Clicked(bool left=true)
  	{ 		
+ 		Height += left? 1.0f : -1f;
+
+ 		Triangulate();
 		Debug.Log(coordinates.ToString());	
  	}
 }

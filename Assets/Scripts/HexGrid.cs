@@ -77,11 +77,15 @@ public class HexGrid : MonoBehaviour
 
  		if (Input.GetMouseButtonDown(0)) 
  		{
- 			HandleInput();
+ 			HandleInput(true);
+ 		} 
+		if (Input.GetMouseButtonDown(1)) 
+ 		{
+ 			HandleInput(false);
  		} 
  	}
 
-	void HandleInput () 
+	void HandleInput (bool left = true) 
 	{
  		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
  		RaycastHit hitInfo;
@@ -92,7 +96,7 @@ public class HexGrid : MonoBehaviour
 			HexCell hitCell = hitGO.GetComponent<HexCell>();
 			if (hitCell != null)
 			{
-				hitCell.Clicked();
+				hitCell.Clicked(left);
 			}
 		}
  	}
