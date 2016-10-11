@@ -17,6 +17,8 @@ public class HexGrid : MonoBehaviour
  	private int curWidth = 6;
  	private int curHeight = 6;
 
+ 	private HexCell mouseCell = null;
+	private float mouseHeight = 1f;
 
 	void Awake () 
 	{
@@ -76,17 +78,54 @@ public class HexGrid : MonoBehaviour
 			BuildGrid(width, height);
 		}
 
- 		if (Input.GetMouseButtonDown(0)) 
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+			mouseHeight = 0f;
+
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+			mouseHeight = 1f;
+
+		if (Input.GetKeyDown(KeyCode.Alpha3))
+			mouseHeight = 2f;
+
+		if (Input.GetKeyDown(KeyCode.Alpha4))
+			mouseHeight = 3f;
+
+		// Initial mouse downs
+		if (Input.GetMouseButtonDown(0)) 
  		{
- 			HandleInput(true);
+ 			HandleInput();
  		} 
 		if (Input.GetMouseButtonDown(1)) 
  		{
- 			HandleInput(false);
+ 			HandleInput();
  		} 
+
+ 		// Now check for drags
+		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+ 		RaycastHit hitInfo;
+
+ 		HexCell lastMouseCell = mouseCell;
+
+		if (Physics.Raycast(inputRay, out hitInfo))
+		{
+			GameObject hitGO = hitInfo.transform.gameObject;
+			mouseCell = hitGO.GetComponent<HexCell>();
+		}
+
+		if (mouseCell!=null && mouseCell != lastMouseCell)
+		{
+			if (Input.GetMouseButton(0))
+			{
+				HandleInput();
+			}
+			if (Input.GetMouseButton(1))
+			{
+				HandleInput();
+			}
+		}
  	}
 
-	void HandleInput (bool left = true) 
+	float HandleInput () 
 	{
  		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
  		RaycastHit hitInfo;
@@ -97,9 +136,12 @@ public class HexGrid : MonoBehaviour
 			HexCell hitCell = hitGO.GetComponent<HexCell>();
 			if (hitCell != null)
 			{
-				hitCell.Clicked(left);
+				hitCell.Clicked(mouseHeight);
+				return hitCell.Height;
 			}
 		}
+
+		return 0f;
  	}
 
    	void TouchCell (Vector3 position) 

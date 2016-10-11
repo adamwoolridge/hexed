@@ -90,12 +90,9 @@ public class HexCell : MonoBehaviour {
 
  	}
 
- 	public void Clicked(bool left=true)
+	public void Clicked(float mouseHeight)
  	{ 		
- 		Height += left? 3.0f : -3f;
-
- 		if (Height < 0.0f)
- 			Height = 0.0f;
+ 		Height = mouseHeight;
 
  		Triangulate();
  	}
